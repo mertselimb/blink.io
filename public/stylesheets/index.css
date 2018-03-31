@@ -75,6 +75,10 @@ input:focus {
     font-size: 15px;
 }
 
+.panel .info:hover {
+    background-color: #283747;
+}
+
 .users::-webkit-scrollbar {
     width: 0.5em;
 }
@@ -108,6 +112,10 @@ input:focus {
     align-items: center;
 }
 
+.panel .info:hover {
+    color: rgb(97, 42, 119);
+}
+
 .info span {
     height: 98%;
     color: white;
@@ -136,6 +144,11 @@ input:focus {
     align-items: center;
 }
 
+.message p {
+    padding-bottom: 0;
+    margin: 5px 0 0 0;
+}
+
 .messages::-webkit-scrollbar {
     width: 1em;
 }
@@ -150,12 +163,25 @@ input:focus {
     color: white;
     font-size: 18px;
     margin: 5px 15px 0 15px;
-    border-bottom: 1px solid rgb(97, 42, 119);
-    padding-bottom: 10px;
+    /* border-bottom: 1px solid #1B2631; */
+    margin-top: 4px;
+    padding: 0 7px 10px 7px;
+}
+
+.message:nth-of-type(2n) {
+    background-color: #1f2c38;
+}
+
+.incoming {
+    border-left: 8px solid rgb(97, 42, 119);
 }
 
 .incoming span {
     float: right;
+}
+
+.send {
+    border-right: 8px solid rgb(97, 42, 119);
 }
 
 .send p {
