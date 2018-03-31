@@ -66,12 +66,22 @@ input:focus {
 
 .users {
     width: 100%;
-    height: 90%;
-    overflow: hidden;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
 
 .panel .info .userName {
     font-size: 15px;
+}
+
+.users::-webkit-scrollbar {
+    width: 0.5em;
+}
+
+.users::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+    outline: 1px solid slategrey;
 }
 
 /* --------------------Chat----------------------- */
