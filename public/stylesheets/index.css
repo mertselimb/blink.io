@@ -71,6 +71,10 @@ input:focus {
     overflow-y: scroll;
 }
 
+#allChatSign {
+    padding-left: 15px;
+}
+
 .panel .info .userName {
     font-size: 15px;
 }
@@ -102,6 +106,7 @@ input:focus {
 .messages,
 .form {
     width: 100%;
+    padding: 0px;
 }
 
 .info {
@@ -129,6 +134,7 @@ input:focus {
 .info .userSign {
     min-width: 55px;
     border-right: 2px solid rgb(97, 42, 119);
+    text-transform: uppercase;
 }
 
 .info .userName {
@@ -213,4 +219,14 @@ input:focus {
 
 .btnSend {
     font-size: 25px;
+}
+
+/* ---------------intro------------------ */
+
+.intro input {
+    height: 250px;
+    font-size: 70px;
+    background: none;
+    color: #455564;
+    border: none;
 }

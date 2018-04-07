@@ -14,159 +14,26 @@
         crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/js/index.js">
+    </script>
 </head>
 
 <body>
-    <div class="container">
+    <div class="container" style="display: none;">
         <div class="panel">
+            <div id="allChatSign" class="info">
+                <span class="userSign">AL</span>
+                <span class="userName">All Chat</span>
+            </div>
             <div class="users">
-                <div class="info">
-                    <span class="userSign">BE
-                    </span>
-                    <span class="userName">Bahadır Erenonga
-                    </span>
-                </div>
-                <div class="info">
-                    <span class="userSign">EB
-                    </span>
-                    <span class="userName">Eren Bahadıronga
-                    </span>
-                </div>
-                <div class="info">
-                    <span class="userSign">BE
-                    </span>
-                    <span class="userName">Bahadır Erenonga
-                    </span>
-                </div>
-                <div class="info">
-                    <span class="userSign">EB
-                    </span>
-                    <span class="userName">Eren Bahadıronga
-                    </span>
-                </div>
-                <div class="info">
-                    <span class="userSign">BE
-                    </span>
-                    <span class="userName">Bahadır Erenonga
-                    </span>
-                </div>
-                <div class="info">
-                    <span class="userSign">EB
-                    </span>
-                    <span class="userName">Eren Bahadıronga
-                    </span>
-                </div>
-                <div class="info">
-                    <span class="userSign">BE
-                    </span>
-                    <span class="userName">Bahadır Erenonga
-                    </span>
-                </div>
-                <div class="info">
-                    <span class="userSign">EB
-                    </span>
-                    <span class="userName">Eren Bahadıronga
-                    </span>
-                </div>
-                <div class="info">
-                    <span class="userSign">BE
-                    </span>
-                    <span class="userName">Bahadır Erenonga
-                    </span>
-                </div>
-                <div class="info">
-                    <span class="userSign">EB
-                    </span>
-                    <span class="userName">Eren Bahadıronga
-                    </span>
-                </div>
-                <div class="info">
-                    <span class="userSign">BE
-                    </span>
-                    <span class="userName">Bahadır Erenonga
-                    </span>
-                </div>
-                <div class="info">
-                    <span class="userSign">EB
-                    </span>
-                    <span class="userName">Eren Bahadıronga
-                    </span>
-                </div>
-
             </div>
         </div>
         <div class="chat">
             <div class="info">
-                <span class="userSign">BE
-                </span>
-                <span class="userName">Bahadır Erenonga
-                </span>
+                <span id="currentUserSign" class="userSign">AL</span>
+                <span id="currentUserName" class="userName">All Chat</span>
             </div>
             <div class="messages">
-                <div class="message incoming">
-                    <p>Stannis kızını yakmadı. Kızını yakanlar senaristler!</p>
-                    <span>04:20</span>
-                </div>
-                <div class="message send">
-                    <p>yogartık</p>
-                    <span>04:20</span>
-                </div>
-                <div class="message incoming">
-                    <p>Stannis kızını yakmadı. Kızını yakanlar senaristler!</p>
-                    <span>04:20</span>
-                </div>
-                <div class="message send">
-                    <p>yogartık</p>
-                    <span>04:20</span>
-                </div>
-                <div class="message incoming">
-                    <p>Stannis kızını yakmadı. Kızını yakanlar senaristler!</p>
-                    <span>04:20</span>
-                </div>
-                <div class="message send">
-                    <p>yogartık</p>
-                    <span>04:20</span>
-                </div>
-                <div class="message incoming">
-                    <p>Stannis kızını yakmadı. Kızını yakanlar senaristler!</p>
-                    <span>04:20</span>
-                </div>
-                <div class="message send">
-                    <p>yogartık</p>
-                    <span>04:20</span>
-                </div>
-                <div class="message incoming">
-                    <p>Stannis kızını yakmadı. Kızını yakanlar senaristler!</p>
-                    <span>04:20</span>
-                </div>
-                <div class="message send">
-                    <p>yogartık</p>
-                    <span>04:20</span>
-                </div>
-                <div class="message incoming">
-                    <p>Stannis kızını yakmadı. Kızını yakanlar senaristler!</p>
-                    <span>04:20</span>
-                </div>
-                <div class="message send">
-                    <p>yogartık</p>
-                    <span>04:20</span>
-                </div>
-                <div class="message incoming">
-                    <p>Stannis kızını yakmadı. Kızını yakanlar senaristler!</p>
-                    <span>04:20</span>
-                </div>
-                <div class="message send">
-                    <p>yogartık</p>
-                    <span>04:20</span>
-                </div>
-                <div class="message incoming">
-                    <p>Stannis kızını yakmadı. Kızını yakanlar senaristler!</p>
-                    <span>04:20</span>
-                </div>
-                <div class="message send">
-                    <p>yogartık</p>
-                    <span>04:20</span>
-                </div>
             </div>
             <div class="form">
                 <input class="messageInput" type="text">
@@ -176,7 +43,14 @@
             </div>
         </div>
     </div>
-    <script src="/js/index.js"></script>
+    <div class="intro">
+        <input id="usernameInput" type="text" placeholder="write username" autofocus>
+        <i id="btnUsername" class="fas fa-play" style="
+    font-size: 70px;
+    background: none;
+    color: #455564;
+    border: none;"></i>
+    </div>
 </body>
 
 </html>
