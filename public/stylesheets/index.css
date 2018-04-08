@@ -281,4 +281,11 @@ input:focus {
     #btnUsername {
         font-size: 30px !important;
     }
+    .btnSend btn {
+        display: none;
+    }
+    .messageInput {
+        height: 15px;
+        font-size: 15px;
+    }
 }
