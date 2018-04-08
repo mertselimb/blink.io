@@ -1,6 +1,7 @@
 var socket = io();
 username = "";
-users = new Array(100);
+listening = "All Chat";
+users = new Array();
 
 $(document).ready(function () {
 
@@ -31,32 +32,38 @@ $(document).ready(function () {
             return false;
         }
     });
-    $(".panel .info").click(function () {
-        sender = $(this).children('span.userName').text();
-        $("#currentUserSign").text(sender.substring(0, 2));
-        $("#currentUserName").text(sender);
-    });
 });
 
 socket.on("updateUsers", function (data) {
     var html = "";
     for (var i = 0; i < data.length; i++) {
-        html += createUser(data[i]);
+        if (data[i] != username)
+            html += createUser(data[i]);
     }
     $(".users").html(html);
     $(".panel .info").click(function () {
-        sender = $(this).children('span.userName').text();
-        $("#currentUserSign").text(sender.substring(0, 2));
-        $("#currentUserName").text(sender);
+        initChangeContact($(this).children('span.userName').text());
     });
 });
 
 socket.on("message", function (data) {
-    console.log(data);
+    if (!users[data.from]) {
+        users[data.from] = [];
+    }
+    users[data.from].push(data);
+    if (data.from == listening) {
+        refreshMessages();
+    }
 });
 
 socket.on("messageAll", function (data) {
-    console.log(data);
+    if (!users["All Chat"]) {
+        users["All Chat"] = [];
+    }
+    users["All Chat"].push(data);
+    if (listening == "All Chat") {
+        refreshMessages();
+    }
 });
 
 function endIntro(params) {
@@ -85,7 +92,6 @@ function sendMessage() {
             from: "you",
             message: message
         });
-        console.log(users);
     } else {
         socket.emit('messageAll', {
             message: message,
@@ -99,12 +105,45 @@ function sendMessage() {
     $(".messageInput").val("");
 }
 
+function initChangeContact(name) {
+    $("#currentUserSign").text(name.substring(0, 2));
+    $("#currentUserName").text(name);
+    listening = name;
+    $(".messages").empty()
+    refreshMessages();
+}
+
+function refreshMessages() {
+    if (!users[listening]) {
+        users[listening] = [];
+    }
+    html = "";
+    if (listening == "All Chat") {
+        for (var i = 0; i < users[listening].length; i++) {
+            if (users[listening][i].from == username) {
+                html += createMessageOut(users[listening][i].message);
+            } else {
+                html += createMessageIn(users[listening][i].from + " : " + users[listening][i].message);
+            }
+        }
+    } else {
+        for (var i = 0; i < users[listening].length; i++) {
+            if (users[listening][i].from == "you") {
+                html += createMessageOut(users[listening][i].message);
+            } else {
+                html += createMessageIn(users[listening][i].message);
+            }
+        }
+    }
+    $(".messages").html(html);
+}
+
 function connect() {
     socket.emit('login', username);
 }
 
-function createUser(username) {
-    return '<div class = "info"><span class = "userSign">' + username.substring(0, 2) + '</span> <span class = "userName" >' + username + '</span> </div>';
+function createUser(name) {
+    return '<div class = "info"><span class = "userSign">' + name.substring(0, 2) + '</span> <span class = "userName" >' + name + '</span> </div>';
 }
 
 function createMessageIn(message) {

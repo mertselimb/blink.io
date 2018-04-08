@@ -34,7 +34,8 @@ io.on('connection', function (socket) {
         console.log('Connected:' + data + ' >> ' + connections.length + " sockets connected.");
     });
     socket.on('message', function (data) {
-        socket.broadcast.to(users[data.to].id).emit('message', data);
+        if (data.to != socket.username)
+            socket.broadcast.to(users[data.to].id).emit('message', data);
     });
     socket.on('messageAll', function (data) {
         io.sockets.emit("messageAll", data);
