@@ -144,6 +144,7 @@ input:focus {
 .messages {
     overflow-y: scroll;
     height: 82%;
+    overflow-x: hidden;
     background-color: #283747;
     display: flex;
     flex-direction: column;
@@ -153,6 +154,7 @@ input:focus {
 .message p {
     padding-bottom: 0;
     margin: 5px 0 0 0;
+    word-wrap: break-word;
 }
 
 .messages::-webkit-scrollbar {
@@ -229,4 +231,46 @@ input:focus {
     background: none;
     color: #455564;
     border: none;
+}
+
+/* -------------mobile support------------- */
+
+@media only screen and (max-width: 800px) {
+    .container {
+        width: 100%;
+    }
+    .info span {
+        font-size: 25px;
+    }
+    .panel {
+        width: 15%;
+    }
+    .panel .info {
+        padding: 0;
+    }
+    #allChatSign {
+        padding-left: 0;
+    }
+    .panel .info .userName {
+        display: none;
+    }
+    .panel .info .userSign {
+        border-right: none;
+    }
+    .users::-webkit-scrollbar {
+        width: 0.2em;
+    }
+    .chat .info .userSign {
+        display: none;
+    }
+    .message {
+        padding: 0 7px 0 7px;
+    }
+    .message p,
+    .message span {
+        font-size: 15px;
+    }
+    .messages::-webkit-scrollbar {
+        width: 0.2em;
+    }
 }

@@ -37,8 +37,12 @@ $(document).ready(function () {
             return false;
         }
     });
-    window.addEventListener('focus', focusTrue);
-    window.addEventListener('blur', focusFalse);
+    window.addEventListener('focus', function () {
+        focus = true;
+    });
+    window.addEventListener('blur', function () {
+        focus = false;
+    });
 });
 
 socket.on("updateUsers", function (data) {
@@ -175,12 +179,4 @@ function createMessageOut(message) {
 
 function ringNotification() {
     sound.play();
-}
-
-function focusTrue() {
-    focus = true;
-}
-
-function focusFalse() {
-    focus = false;
 }
