@@ -273,4 +273,12 @@ input:focus {
     .messages::-webkit-scrollbar {
         width: 0.2em;
     }
+    #usernameInput {
+        width: 300px;
+        font-size: 30px;
+        height: 35px;
+    }
+    #btnUsername {
+        font-size: 30px !important;
+    }
 }
