@@ -2,6 +2,11 @@ var socket = io();
 username = "";
 listening = "All Chat";
 users = new Array();
+focus = true;
+
+var sound = new Howl({
+    src: ['definite.mp3']
+});
 
 $(document).ready(function () {
 
@@ -32,6 +37,8 @@ $(document).ready(function () {
             return false;
         }
     });
+    window.addEventListener('focus', focusTrue);
+    window.addEventListener('blur', focusFalse);
 });
 
 socket.on("updateUsers", function (data) {
@@ -51,8 +58,10 @@ socket.on("message", function (data) {
         users[data.from] = [];
     }
     users[data.from].push(data);
-    if (data.from == listening) {
+    if (data.from == listening && focus) {
         refreshMessages();
+    } else {
+        ringNotification();
     }
 });
 
@@ -61,8 +70,10 @@ socket.on("messageAll", function (data) {
         users["All Chat"] = [];
     }
     users["All Chat"].push(data);
-    if (listening == "All Chat") {
+    if (listening == "All Chat" && focus) {
         refreshMessages();
+    } else {
+        ringNotification();
     }
 });
 
@@ -160,4 +171,16 @@ function createMessageIn(message) {
 function createMessageOut(message) {
     var d = new Date();
     return "<div class='message send'><p>" + message + "</p><span>" + d.getHours() + ":" + d.getMinutes() + "</span></div>"
+}
+
+function ringNotification() {
+    sound.play();
+}
+
+function focusTrue() {
+    focus = true;
+}
+
+function focusFalse() {
+    focus = false;
 }
