@@ -102,6 +102,7 @@ function sendMessage() {
     if (to != "All Chat") {
         $(".messages").append(createMessageOut(message));
     }
+    $('.messages').scrollTop($('.messages')[0].scrollHeight);
     $(".messageInput").val("");
 }
 
@@ -136,6 +137,11 @@ function refreshMessages() {
         }
     }
     $(".messages").html(html);
+    $(function () {
+        var wtf = $('.messages');
+        var height = $('.messages')[0].scrollHeight;
+        $('.messages').scrollTop($('.messages')[0].scrollHeight);
+    });
 }
 
 function connect() {
