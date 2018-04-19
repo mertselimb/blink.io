@@ -62,11 +62,10 @@ socket.on("message", function (data) {
         users[data.from] = [];
     }
     users[data.from].push(data);
-    if (data.from == listening && focus) {
-        refreshMessages();
-    } else {
+    if (data.from != listening || !focus) {
         ringNotification();
     }
+    refreshMessages();
 });
 
 socket.on("messageAll", function (data) {
@@ -74,14 +73,13 @@ socket.on("messageAll", function (data) {
         users["All Chat"] = [];
     }
     users["All Chat"].push(data);
-    if (listening == "All Chat" && focus) {
-        refreshMessages();
-    } else {
+    if (listening != listening || !focus) {
         ringNotification();
     }
+    refreshMessages();
 });
 
-function endIntro(params) {
+function endIntro() {
     username = $("#usernameInput").val();
     $(".intro").fadeOut(400, function () {
         $(".container").fadeIn(400, function () {
@@ -93,29 +91,36 @@ function endIntro(params) {
 function sendMessage() {
     to = $("#currentUserName").text();
     message = $(".messageInput").val();
+    var d = new Date();
     if (!message || !to) return false;
     if (to != "All Chat") {
         socket.emit('message', {
             message: message,
             to: to,
-            from: username
+            from: username,
+            time: d.getHours() + ":" + d.getMinutes()
         });
         if (!users[to]) {
             users[to] = [];
         }
         users[to].push({
             from: "you",
-            message: message
+            message: message,
+            time: d.getHours() + ":" + d.getMinutes()
         });
     } else {
         socket.emit('messageAll', {
             message: message,
             to: to,
-            from: username
+            from: username,
+            time: d.getHours() + ":" + d.getMinutes()
         });
     }
     if (to != "All Chat") {
-        $(".messages").append(createMessageOut(message));
+        $(".messages").append(createMessageOut({
+            message: message,
+            time: d.getHours() + ":" + d.getMinutes()
+        }));
     }
     $('.messages').scrollTop($('.messages')[0].scrollHeight);
     $(".messageInput").val("");
@@ -125,11 +130,11 @@ function initChangeContact(name) {
     $("#currentUserSign").text(name.substring(0, 2));
     $("#currentUserName").text(name);
     listening = name;
-    $(".messages").empty()
     refreshMessages();
 }
 
 function refreshMessages() {
+    $(".messages").empty()
     if (!users[listening]) {
         users[listening] = [];
     }
@@ -137,17 +142,29 @@ function refreshMessages() {
     if (listening == "All Chat") {
         for (var i = 0; i < users[listening].length; i++) {
             if (users[listening][i].from == username) {
-                html += createMessageOut(users[listening][i].message);
+                html += createMessageOut({
+                    message: users[listening][i].message,
+                    time: users[listening][i].time
+                });
             } else {
-                html += createMessageIn(users[listening][i].from + " : " + users[listening][i].message);
+                html += createMessageIn({
+                    message: users[listening][i].from + " : " + users[listening][i].message,
+                    time: users[listening][i].time
+                });
             }
         }
     } else {
         for (var i = 0; i < users[listening].length; i++) {
             if (users[listening][i].from == "you") {
-                html += createMessageOut(users[listening][i].message);
+                html += createMessageOut({
+                    message: users[listening][i].message,
+                    time: users[listening][i].time
+                });
             } else {
-                html += createMessageIn(users[listening][i].message);
+                html += createMessageIn({
+                    message: users[listening][i].message,
+                    time: users[listening][i].time
+                });
             }
         }
     }
@@ -167,14 +184,13 @@ function createUser(name) {
     return '<div class = "info"><span class = "userSign">' + name.substring(0, 2) + '</span> <span class = "userName" >' + name + '</span> </div>';
 }
 
-function createMessageIn(message) {
-    var d = new Date();
-    return "<div class='message incoming'><p>" + message + "</p><span>" + d.getHours() + ":" + d.getMinutes() + "</span></div>"
+function createMessageIn(data) {
+    return "<div class='message incoming'><p>" + data.message + "</p><span>" + data.time + "</span></div>"
 }
 
-function createMessageOut(message) {
+function createMessageOut(data) {
     var d = new Date();
-    return "<div class='message send'><p>" + message + "</p><span>" + d.getHours() + ":" + d.getMinutes() + "</span></div>"
+    return "<div class='message send'><p>" + data.message + "</p><span>" + data.time + "</span></div>"
 }
 
 function ringNotification() {

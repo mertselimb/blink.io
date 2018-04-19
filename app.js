@@ -15,23 +15,23 @@ app.get('/', function (req, res) {
     res.render("index")
 })
 http.listen(process.env.PORT || 9999, () => console.log('Blink.io listening on port 9999!'));
+setInterval(updateUsers, 15000);
 
 io.on('connection', function (socket) {
     socket.on('disconnect', function () {
         if (!socket.username) return;
         usernames.splice(usernames.indexOf(socket.username), 1);
         users.splice(socket.username, 1);
-        updateUsers();
         connections.splice(connections.indexOf(socket), 1);
-        console.log('Disconnected:' + socket.username + ' >> ' + connections.length + " sockets connected.");
+        console.log(socket.ip + '  Disconnected:' + socket.username + ' >> ' + connections.length + " sockets connected.");
     });
     socket.on('login', function (data) {
         socket.username = data;
+        socket.ip = socket.request.connection.remoteAddress;
         connections.push(socket);
         users[socket.username] = socket;
         usernames.push(data);
-        updateUsers();
-        console.log('Connected:' + data + ' >> ' + connections.length + " sockets connected.");
+        console.log(socket.ip + '  Connected:' + data + ' >> ' + connections.length + " sockets connected.");
     });
     socket.on('message', function (data) {
         if (data.to != socket.username)
