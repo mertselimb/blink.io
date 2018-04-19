@@ -27,7 +27,7 @@ io.on('connection', function (socket) {
     });
     socket.on('login', function (data) {
         socket.username = data;
-        socket.ip = socket.handshake.address;
+        socket.ip = socket.handshake.address + ":" + socket.handshake.port;
         connections.push(socket);
         users[socket.username] = socket;
         usernames.push(data);
