@@ -102,6 +102,14 @@ input:focus {
     margin: 0;
 }
 
+.chat .info {
+    justify-content: space-between;
+}
+
+.chat .info #btnDisconnect {
+    margin-right: 22px;
+}
+
 .info,
 .messages,
 .form {

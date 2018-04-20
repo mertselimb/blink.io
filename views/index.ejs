@@ -13,7 +13,10 @@
     <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/fontawesome.js" integrity="sha384-7ox8Q2yzO/uWircfojVuCQOZl+ZZBg2D2J5nkpLqzH1HY0C1dHlTKIbpRz/LG23c"
         crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    </script>
     </script>
     <script src="\js\howler.js"></script>
     <script src="/js/index.js">
@@ -32,8 +35,18 @@
         </div>
         <div class="chat">
             <div class="info">
-                <span id="currentUserSign" class="userSign">AL</span>
-                <span id="currentUserName" class="userName">All Chat</span>
+                <div>
+                    <span id="currentUserSign" class="userSign">AL</span>
+                    <span id="currentUserName" class="userName">All Chat</span>
+                </div>
+                <button class="btn" id="btnDisconnect" type="button">
+                    <div id="signDisconnect">
+                        <i class="fas fa-times"></i>
+                    </div>
+                    <div id="signConnect">
+                        <i class="fas fa-plug"></i>
+                    </div>
+                </button>
             </div>
             <div class="messages">
             </div>
@@ -52,6 +65,10 @@
     background: none;
     color: #455564;
     border: none;"></i>
+    </div>
+    <div id="dialog-confirm" title="User messaged you for the first time">
+        <p>
+            <span id="senderUsernameModal"></span> send message to you. Do you want to accept his messages?</p>
     </div>
 </body>
 
