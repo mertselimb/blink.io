@@ -86,7 +86,7 @@ socket.on("updateUsers", function (data) { //Gets server updateUsers request(upd
     var html = "";
     serverUsers = data; //Get servers users and load to local data
     for (var i = 0; i < data.length; i++) {
-        if (data[i] != username) //If the user isn't you create a user template
+        if (data[i] != username + "[ONLINE]") //If the user isn't you create a user template
             html += createUser(data[i]); //Add to html variable
     }
     $(".users").html(html); //Edit divs html

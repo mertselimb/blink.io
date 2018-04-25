@@ -21,7 +21,7 @@ setInterval(updateUsers, 15000); //Update user data of clients for no good reaso
 io.on('connection', function (socket) { //When a client connects
     socket.on('disconnect', function () { //When a client disconnects
         if (!socket.username) return; //If user not signed in return so we will not get errors
-        usernames.splice(usernames.indexOf(socket.username), 1); //Get rid of user data
+        usernames[usernames.indexOf(socket.username + "[ONLINE]")] = usernames[usernames.indexOf(socket.username + "[ONLINE]")].replace("[ONLINE]", "[OFFLINE]"); //Get rid of user data
         users.splice(socket.username, 1); //Get rid of user data
         connections.splice(connections.indexOf(socket), 1); //Get rid of user data
         console.log(socket.ip + '  Disconnected:' + socket.username + ' >> ' + connections.length + " sockets connected."); //Write console the data
@@ -33,7 +33,8 @@ io.on('connection', function (socket) { //When a client connects
         }
         connections.push(socket); //Push raw data array
         users[socket.username] = socket; //Push data
-        usernames.push(data); //Push username as a dictionary (string indexed array)
+        usernames.splice(usernames.indexOf(socket.username + "[ONLINE]"), 1);
+        usernames.push(data + "[ONLINE]"); //Push username as a dictionary (string indexed array)
         console.log(socket.ip + '  Connected:' + data + ' >> ' + connections.length + " sockets connected."); //Write console the data
     });
     socket.on('message', function (data) { //When a client sents message
