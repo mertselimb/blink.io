@@ -145,7 +145,7 @@ function sendMessage() { //What happens when clicked send or enter
     if (to != "All Chat") { //If private
         socket.emit('message', { //Emit data to server contains JSON
             message: message,
-            to: to,
+            to: to.replace("[ONLINE]", ""),
             from: username,
             time: d.getHours() + ":" + d.getMinutes()
         });
