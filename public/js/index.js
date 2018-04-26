@@ -97,6 +97,7 @@ socket.on("updateUsers", function (data) { //Gets server updateUsers request(upd
 });
 
 socket.on("message", function (data) { //Gets server message request(reterieves private message)
+    data.from = data.from + "[ONLINE]";
     if (!blacklist[data.from]) { //Is blacklisted?
         if (!users[data.from]) { //Is first message?
             $("#senderUsernameModal").text(data.from); //Fill the modal window span with username of whom the message is from
@@ -145,7 +146,7 @@ function sendMessage() { //What happens when clicked send or enter
     if (to != "All Chat") { //If private
         socket.emit('message', { //Emit data to server contains JSON
             message: message,
-            to: to.replace("[ONLINE]", ""),
+            to: to,
             from: username,
             time: d.getHours() + ":" + d.getMinutes()
         });

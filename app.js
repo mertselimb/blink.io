@@ -16,7 +16,7 @@ app.get('/', function (req, res) { //Express set up for root route
     res.render("index")
 })
 http.listen(process.env.PORT || 9999, () => console.log('Blink.io listening on port 9999!')); //Start express server
-setInterval(updateUsers, 15000); //Update user data of clients for no good reason
+setInterval(updateUsers, 1000); //Update user data of clients for no good reason
 
 io.on('connection', function (socket) { //When a client connects
     socket.on('disconnect', function () { //When a client disconnects
@@ -41,7 +41,7 @@ io.on('connection', function (socket) { //When a client connects
     });
     socket.on('message', function (data) { //When a client sents message
         if (data.to != socket.username) //If client doens't send message to itself
-            socket.broadcast.to(users[data.to + "[ONLINE]"].id).emit('message', data); //Send data retrieved to client
+            socket.broadcast.to(users[data.to.replace("[ONLINE]", "")].id).emit('message', data); //Send data retrieved to client
     });
     socket.on('messageAll', function (data) { //When a client sents message to all chat
         io.sockets.emit("messageAll", data); //Send data retrieved to all clients
