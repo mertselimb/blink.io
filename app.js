@@ -16,7 +16,7 @@ app.get('/', function (req, res) { //Express set up for root route
     res.render("index")
 })
 http.listen(process.env.PORT || 9999, () => console.log('Blink.io listening on port 9999!')); //Start express server
-setInterval(updateUsers, 1000); //Update user data of clients for no good reason
+setInterval(updateUsers, 15000); //Update user data of clients for no good reason
 
 io.on('connection', function (socket) { //When a client connects
     socket.on('disconnect', function () { //When a client disconnects
