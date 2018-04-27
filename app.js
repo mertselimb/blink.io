@@ -46,6 +46,7 @@ io.on('connection', function (socket) { //When a client connects
     });
 });
 
+
 function updateUsers() { //Update every clients user data
     io.sockets.emit("updateUsers", usernames); //Send data to all clients
 }
