@@ -29,7 +29,7 @@ io.on('connection', function (socket) { //When a client connects
     socket.on('login', function (data) { //When a client logins
         socket.username = data; //Retrieve socket username
         if (!socket.ip) { //If there is no ip (If user reconnects it will have ip)
-            socket.ip = socket.request.connection.remoteAddress; //Get client ip
+            socket.ip = req.connection.remoteAddress; //Get client ip
         }
         connections.push(socket); //Push raw data array
         users[socket.username] = socket; //Push data
