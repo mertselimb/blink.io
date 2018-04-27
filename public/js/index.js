@@ -3,7 +3,6 @@ username = ""; //Clients username
 listening = "All Chat"; //Holds data of the open chat
 serverUsers = new Array(); //Users at the server
 users = new Array(); //All users that have been contacted
-blacklist = new Array(); //Blacklisted users for this user
 isSeen = new Array(); //The array holds data that shows if the messages have been seen
 focus = true; //Is the user look at the page at the moment
 sound = new Howl({ //Init message sound
@@ -12,41 +11,6 @@ sound = new Howl({ //Init message sound
 disconnected = false; //Is client disconnected
 
 $(document).ready(function () { //Functions that called after pageload
-    $("#signConnect").hide(); //Hide connect buttın
-    $("#btnDisconnect").click(function () { //Disconnect button action
-        if (!disconnected) {
-            $("#signConnect").show();
-            $("#signDisconnect").hide();
-            socket.disconnect(); //Disconnect from socket.io server and database
-            disconnected = true;
-        } else {
-            $("#signConnect").hide();
-            $("#signDisconnect").show();
-            socket.connect(); //Connect socket.io server
-            connect(); //Register user to database
-            disconnected = false;
-        }
-    });
-    $("#dialog-confirm").dialog({ //Init jquery modal that confirms if the user want to talk with this user
-        resizable: false,
-        height: "auto",
-        autoOpen: false,
-        width: 400,
-        modal: true,
-        show: {
-            effect: "blind",
-            duration: 1000
-        },
-        buttons: {
-            "Accept": function () {
-                $(this).dialog("close");
-            },
-            Cancel: function () {
-                blacklist[$("#senderUsernameModal").text()] = true;
-                $(this).dialog("close");
-            }
-        }
-    });
     $(".btnSend").click(function () { //Inits user click at click
         sendMessage(); //Sends the message 
     });
@@ -86,7 +50,7 @@ socket.on("updateUsers", function (data) { //Gets server updateUsers request(upd
     var html = "";
     serverUsers = data; //Get servers users and load to local data
     for (var i = 0; i < data.length; i++) {
-        if (data[i] != username + "[ONLINE]") //If the user isn't you create a user template
+        if (data[i] != username) //If the user isn't you create a user template
             html += createUser(data[i]); //Add to html variable
     }
     $(".users").html(html); //Edit divs html
@@ -97,35 +61,29 @@ socket.on("updateUsers", function (data) { //Gets server updateUsers request(upd
 });
 
 socket.on("message", function (data) { //Gets server message request(reterieves private message)
-    data.from = data.from + "[ONLINE]";
-    if (!blacklist[data.from]) { //Is blacklisted?
-        if (!users[data.from]) { //Is first message?
-            $("#senderUsernameModal").text(data.from); //Fill the modal window span with username of whom the message is from
-            $("#dialog-confirm").dialog("open"); //Open modal window
-            users[data.from] = []; //Create blank array node so we won't get null error
-        }
-        isSeen[data.from] = false; //Message isn't seen yet
-        users[data.from].push(data); //Push message to local array
-        if (data.from != listening || !focus) { //If when the message came user isn't focusing the tab or not looking at the senders message window
-            ringNotification(); //Ring notification sound
-        }
-        refreshMessages(); //Refresh all messages at the message window
-        isSeenRefresher(); //Refresh user divs seen status
+    if (!users[data.from]) { //Is first message?
+        $("#senderUsernameModal").text(data.from); //Fill the modal window span with username of whom the message is from
+        users[data.from] = []; //Create blank array node so we won't get null error
     }
+    isSeen[data.from] = false; //Message isn't seen yet
+    users[data.from].push(data); //Push message to local array
+    if (data.from != listening || !focus) { //If when the message came user isn't focusing the tab or not looking at the senders message window
+        ringNotification(); //Ring notification sound
+    }
+    refreshMessages(); //Refresh all messages at the message window
+    isSeenRefresher(); //Refresh user divs seen status
 });
 
 socket.on("messageAll", function (data) { //Gets server messageAll request(retrieves message for all chat)
-    if (!blacklist[data.from]) { //Is blacklisted?
-        if (!users["All Chat"]) { //Is first message?
-            users["All Chat"] = []; //Create blank array node so we won't get null error
-        }
-        users["All Chat"].push(data); //Push message to local array
-        if (listening != listening || !focus) { //If when the message came user isn't focusing the tab or not looking at the senders message window
-            ringNotification(); //Ring notification sound
-        }
-        refreshMessages(); //Refresh all messages at the message window
-        isSeenRefresher(); //Refresh user divs seen status
+    if (!users["All Chat"]) { //Is first message?
+        users["All Chat"] = []; //Create blank array node so we won't get null error
     }
+    users["All Chat"].push(data); //Push message to local array
+    if (listening != listening || !focus) { //If when the message came user isn't focusing the tab or not looking at the senders message window
+        ringNotification(); //Ring notification sound
+    }
+    refreshMessages(); //Refresh all messages at the message window
+    isSeenRefresher(); //Refresh user divs seen status
 });
 
 
@@ -192,6 +150,9 @@ function isSeenRefresher() { //Refresh all user colors so we can see whose
     for (var i = 0; i < serverUsers.length; i++) { //Look at the array we retrieved from server
         if (isSeen[serverUsers[i]] == false && listening != serverUsers[i]) { //If messages are not seen and we are not looking at the window 
             $("." + serverUsers[i]).css("color", "rgb(97, 42, 119)"); //Change user color to purple
+        }
+        if (listening == serverUsers[i]) {
+            isSeen[serverUsers[i]] = true;
         }
     }
 }

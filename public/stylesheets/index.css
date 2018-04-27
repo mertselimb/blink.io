@@ -106,10 +106,6 @@ input:focus {
     justify-content: space-between;
 }
 
-.chat .info #btnDisconnect {
-    margin-right: 22px;
-}
-
 .info,
 .messages,
 .form {
@@ -248,7 +244,7 @@ input:focus {
         width: 100%;
     }
     .info span {
-        font-size: 25px;
+        font-size: 20px;
     }
     .panel {
         width: 15%;
